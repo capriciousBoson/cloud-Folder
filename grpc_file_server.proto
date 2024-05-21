@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+service FileService {
+  rpc UploadFile (FileUploadRequest) returns (FileUploadResponse);
+  rpc DownloadFile (FileDownloadRequest) returns (stream FileChunk);
+  rpc DeleteFile (FileDeleteRequest) returns (FileDeleteResponse);
+  rpc RenameFile (FileRenameRequest) returns (FileRenameResponse);
+  rpc ListFiles (FileDownloadRequest) returns (stream FileUploadResponse);
+}
+
+message FileUploadRequest {
+  string file_name = 1;
+  bytes file_data = 2;
+}
+
+message FileUploadResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+message FileDownloadRequest {
+  string file_name = 1;
+}
+
+message FileChunk {
+  bytes data_chunks = 1;
+}
+
+message FileDeleteRequest {
+  string file_name = 1;
+}
+
+message FileDeleteResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+message FileRenameRequest {
+  string old_file_name = 1;
+  string new_file_name = 2;
+}
+
+message FileRenameResponse {
+  bool success = 1;
+  string message = 2;
+}
