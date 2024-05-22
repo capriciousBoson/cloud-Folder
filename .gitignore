@@ -127,6 +127,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+/cloud_folder_env
 
 # Spyder project settings
 .spyderproject

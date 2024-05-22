@@ -31,32 +31,32 @@ class FileServer(FileServiceServicer):
         response = FileUploadResponse(success=True, message="File upload was successfull !!!")
         return response
 
-    def DownloadFile(self, request, context):
-        """
-        Handles file download requests from clients.
+    # def DownloadFile(self, request, context):
+    #     """
+    #     Handles file download requests from clients.
 
-        Args:
-            request (FileDownloadRequest): The gRPC request containing the file name to be downloaded.
-            context (grpc.ServicerContext): The context for the service method.
+    #     Args:
+    #         request (FileDownloadRequest): The gRPC request containing the file name to be downloaded.
+    #         context (grpc.ServicerContext): The context for the service method.
 
-        Yields:
-            FileChunk: A gRPC response containing file data in chunks.
-        """
+    #     Yields:
+    #         FileChunk: A gRPC response containing file data in chunks.
+    #     """
 
-        saved_data_dir = "uploads/"
-        file_path = os.path.join(saved_data_dir, request.file_name)
+    #     saved_data_dir = "uploads/"
+    #     file_path = os.path.join(saved_data_dir, request.file_name)
 
-        try:
-            with open(file_path, 'rb') as file:
-                while True:
-                    data_chunk = file.read(1024)
-                    if not data_chunk : 
-                        break
-                    yield FileChunk(data_chunks=data_chunk)
-        except FileNotFoundError:
-            context.set_details(f"File '{request.file_name}' not found !!! ")
-            context.set_code(grpc.StatusCode.NOT_FOUND)
-            return
+    #     try:
+    #         with open(file_path, 'rb') as file:
+    #             while True:
+    #                 data_chunk = file.read(1024)
+    #                 if not data_chunk : 
+    #                     break
+    #                 yield FileChunk(data_chunks=data_chunk)
+    #     except FileNotFoundError:
+    #         context.set_details(f"File '{request.file_name}' not found !!! ")
+    #         context.set_code(grpc.StatusCode.NOT_FOUND)
+    #         return
          
     def DeleteFile(self, request, context):
         """
@@ -91,41 +91,41 @@ class FileServer(FileServiceServicer):
         
         return response
 
-    def RenameFile(self, request, context):
-        """
-        Handles file renaming requests from clients.
+    # def RenameFile(self, request, context):
+    #     """
+    #     Handles file renaming requests from clients.
 
-        Args:
-            request (FileRenameRequest): The gRPC request containing old and new file names.
-            context (grpc.ServicerContext): The context for the service method.
+    #     Args:
+    #         request (FileRenameRequest): The gRPC request containing old and new file names.
+    #         context (grpc.ServicerContext): The context for the service method.
 
-        Returns:
-            FileRenameResponse: The gRPC response indicating the success of the renaming.
-        """
+    #     Returns:
+    #         FileRenameResponse: The gRPC response indicating the success of the renaming.
+    #     """
 
-        old_file_name = request.old_file_name
-        new_file_name = request.new_file_name
+    #     old_file_name = request.old_file_name
+    #     new_file_name = request.new_file_name
 
-        # Specify the server's data directory
-        data_directory = "uploads/"
+    #     # Specify the server's data directory
+    #     data_directory = "uploads/"
 
-        old_file_path = data_directory + old_file_name
-        new_file_path = data_directory + new_file_name
+    #     old_file_path = data_directory + old_file_name
+    #     new_file_path = data_directory + new_file_name
 
-        try:
-            # rename the file
-            os.rename(old_file_path, new_file_path)
-            response = FileRenameResponse(success=True, message="File renamed successfully")
-        except FileNotFoundError:
-            response = FileRenameResponse(success=False, message=f"File '{old_file_name}' not found.")
-            context.set_details(f"File '{old_file_name}' not found.")
-            context.set_code(grpc.StatusCode.NOT_FOUND)
-        except Exception as e:
-            response = FileRenameResponse(success=False, message=str(e))
-            context.set_details(str(e))
-            context.set_code(grpc.StatusCode.INTERNAL)
+    #     try:
+    #         # rename the file
+    #         os.rename(old_file_path, new_file_path)
+    #         response = FileRenameResponse(success=True, message="File renamed successfully")
+    #     except FileNotFoundError:
+    #         response = FileRenameResponse(success=False, message=f"File '{old_file_name}' not found.")
+    #         context.set_details(f"File '{old_file_name}' not found.")
+    #         context.set_code(grpc.StatusCode.NOT_FOUND)
+    #     except Exception as e:
+    #         response = FileRenameResponse(success=False, message=str(e))
+    #         context.set_details(str(e))
+    #         context.set_code(grpc.StatusCode.INTERNAL)
         
-        return response
+    #     return response
     
     def ListFiles(self, request, context):
         # Placeholder implementation to return the list of files on the server

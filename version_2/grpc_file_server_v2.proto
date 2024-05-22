@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+
+service FileService {
+  rpc UploadFile (FileUploadRequest) returns (FileUploadResponse);
+  rpc DeleteFile (FileDeleteRequest) returns (FileDeleteResponse);
+}
+
+service DirectoryService {
+    rpc MakeDirectory (MakeDirectoryRequest) returns (MakeDirectoryResponse);
+}
+
+message FileUploadRequest {
+  string file_name = 1;
+  bytes file_data = 2;
+}
+
+message FileUploadResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+message FileDeleteRequest {
+  string file_name = 1;
+}
+
+message FileDeleteResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+message MakeDirectoryRequest {
+    string path = 1;
+}
+
+message MakeDirectoryResponse {
+    bool success = 1;
+    string message = 2;
+}

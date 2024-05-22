@@ -33,37 +33,37 @@ def upload_file(stub, file_path):
     print("Upload Response:", upload_response)
 
 
-def download_file(stub, file_name):
-    """
-    Downloads a file from the gRPC server.
+# def download_file(stub, file_name):
+#     """
+#     Downloads a file from the gRPC server.
 
-    Args:
-        stub: gRPC stub for communication with the server.
-        file_name (str): Name of the file to be downloaded.
-    """
-    download_request = FileDownloadRequest(file_name=file_name)
-    download_response = stub.DownloadFile(download_request)
+#     Args:
+#         stub: gRPC stub for communication with the server.
+#         file_name (str): Name of the file to be downloaded.
+#     """
+#     download_request = FileDownloadRequest(file_name=file_name)
+#     download_response = stub.DownloadFile(download_request)
     
 
-    # Initializing an empy bytes object to store complete file data
-    file_data = b''
+#     # Initializing an empy bytes object to store complete file data
+#     file_data = b''
 
-    try:
-        # Iterate over the response stream (download_response) received from the server.
-        # append each data chunk from the stream to the file_data variable.
-        for chunk in download_response:
-            file_data += chunk.data_chunks
+#     try:
+#         # Iterate over the response stream (download_response) received from the server.
+#         # append each data chunk from the stream to the file_data variable.
+#         for chunk in download_response:
+#             file_data += chunk.data_chunks
 
-    except grpc.RpcError as e:
-        print(f" Error during downloading file : {e.details()}")
-        return
+#     except grpc.RpcError as e:
+#         print(f" Error during downloading file : {e.details()}")
+#         return
 
-    download_file_path = f"downloads/downloaded_{file_name}"
+#     download_file_path = f"downloads/downloaded_{file_name}"
 
-    with open(download_file_path, 'wb') as file:
-        file.write(file_data)
+#     with open(download_file_path, 'wb') as file:
+#         file.write(file_data)
     
-    print(f"File '{file_name}' downloaded successfully to {download_file_path}")
+#     print(f"File '{file_name}' downloaded successfully to {download_file_path}")
 
 def delete_file(stub, file_name):
     """
@@ -78,18 +78,18 @@ def delete_file(stub, file_name):
     delete_response = stub.DeleteFile(delete_request)
     print("Delete Response:", delete_response)
 
-def rename_file(stub, old_file_name, new_file_name):
-    """
-    Renames a file on the gRPC server.
+# def rename_file(stub, old_file_name, new_file_name):
+#     """
+#     Renames a file on the gRPC server.
 
-    Args:
-        stub: gRPC stub for communication with the server.
-        old_file_name (str): Name of the original file which to be renamed.
-        new_file_mame (str): New name of the file.
-    """
-    rename_request = FileRenameRequest(old_file_name=old_file_name, new_file_name=new_file_name)
-    rename_response = stub.RenameFile(rename_request)
-    print("Rename Response:", rename_response)
+#     Args:
+#         stub: gRPC stub for communication with the server.
+#         old_file_name (str): Name of the original file which to be renamed.
+#         new_file_mame (str): New name of the file.
+#     """
+#     rename_request = FileRenameRequest(old_file_name=old_file_name, new_file_name=new_file_name)
+#     rename_response = stub.RenameFile(rename_request)
+#     print("Rename Response:", rename_response)
 
 def extract_file_name(file_path):
     # Using a regex to extract the file name from the path
@@ -119,16 +119,16 @@ def run():
 
     if operation == 'upload':
         upload_file(stub, file_name)
-    elif operation == 'download':
-        download_file(stub, file_name)
+    # elif operation == 'download':
+    #     download_file(stub, file_name)
     elif operation == 'delete':
         delete_file(stub, file_name)
-    elif operation == 'rename':
-        if len(sys.argv) < 4:
-            print("Usage: python file_client.py rename <old_file_name> <new_file_name>")
-            sys.exit(1)
-        new_file_name = sys.argv[3]
-        rename_file(stub, file_name, new_file_name)
+    # elif operation == 'rename':
+    #     if len(sys.argv) < 4:
+    #         print("Usage: python file_client.py rename <old_file_name> <new_file_name>")
+    #         sys.exit(1)
+    #     new_file_name = sys.argv[3]
+    #     rename_file(stub, file_name, new_file_name)
     else:
         print("Invalid operation. Supported operations: upload, download, delete, rename")
 
