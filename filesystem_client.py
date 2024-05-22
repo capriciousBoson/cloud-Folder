@@ -3,6 +3,7 @@ import sys
 from grpc_file_server_pb2 import FileUploadRequest, FileDownloadRequest, FileDeleteRequest, FileRenameRequest
 from grpc_file_server_pb2_grpc import FileServiceStub
 import re
+import os
 
 def upload_file(stub, file_path):
     """
@@ -15,8 +16,11 @@ def upload_file(stub, file_path):
 
     # Open the file specified by file_path in binary read mode ('rb')
     # and read the contents of the file in a variable "file_data"
-    with open(file_path, 'rb') as file:
-        file_data = file.read()
+    if os.path.isfile(file_path):
+        with open(file_path, 'rb') as file:
+            file_data = file.read()
+    else:
+        file_data = "new_dir"
 
     file_name = extract_file_name(file_path=file_path)
 
