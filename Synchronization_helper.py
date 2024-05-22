@@ -6,15 +6,15 @@ import time
 import subprocess
 import sys
 
-def synchronize_folder_with_server(folder_path):
+def synchronize_folder_with_server(folder_to_monitor):
     while True:
-        current_files = set(os.listdir("downloads"))
+        current_files = set(os.listdir(folder_to_monitor))
         server_files = set(os.listdir("uploads"))
 
         # Upload new files to the server
         new_files = current_files - server_files
         for file_name in new_files:
-            file_path = os.path.join(folder_path, file_name)
+            file_path = os.path.join(folder_to_monitor, file_name)
             print(f"This file is being uploaded: {file_path}")
             upload_file_to_server(file_path)
 
