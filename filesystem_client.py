@@ -108,7 +108,10 @@ def run():
         sys.exit(1)
 
     operation = sys.argv[1].lower()
-    file_name = sys.argv[2]
+    if operation != "rename" : 
+        file_name = ' '.join(sys.argv[2:]) 
+    else: 
+        file_name = sys.argv[2]
 
     if operation == 'upload':
         upload_file(stub, file_name)
